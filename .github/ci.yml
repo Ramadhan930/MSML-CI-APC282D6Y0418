@@ -1,0 +1,25 @@
+name: MLflow CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.12.3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.3'
+      - name: Install dependencies
+        run: pip install mlflow==2.19.0 scikit-learn pandas numpy
+      - name: Run MLflow project
+        run: mlflow run MLproject/ --experiment-name Credit_CI
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mlflow-model
+          path: mlruns/
