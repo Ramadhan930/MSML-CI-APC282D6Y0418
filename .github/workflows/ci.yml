@@ -19,8 +19,9 @@ jobs:
       - name: Install dependencies
         run: pip install mlflow==2.19.0 scikit-learn pandas numpy
 
-      - name: Run MLflow project
-        run: mlflow run MLproject/ --experiment-name Credit_CI
+      - name: Run training script
+        working-directory: MLproject
+        run: python modelling.py loan_preprocessing/loan_clean.csv
 
       - name: Get latest MLflow run ID
         id: get_run
